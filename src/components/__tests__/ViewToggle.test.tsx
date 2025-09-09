@@ -14,7 +14,7 @@ describe('ViewToggle', () => {
     mockUseStore.mockReturnValue({
       currentView: 'tabular',
       setCurrentView: mockSetCurrentView,
-    } as any)
+    } as ReturnType<typeof useStore>)
   })
 
   afterEach(() => {
@@ -42,7 +42,7 @@ describe('ViewToggle', () => {
     mockUseStore.mockReturnValue({
       currentView: 'kanban',
       setCurrentView: mockSetCurrentView,
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<ViewToggle />)
     

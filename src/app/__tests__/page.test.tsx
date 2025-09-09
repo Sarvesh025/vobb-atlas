@@ -72,7 +72,7 @@ describe('DealsPage Integration', () => {
   }
 
   beforeEach(() => {
-    mockUseStore.mockReturnValue(mockStoreActions as any)
+    mockUseStore.mockReturnValue(mockStoreActions as ReturnType<typeof useStore>)
     mockApi.getDeals.mockResolvedValue(mockDeals)
     mockApi.getProducts.mockResolvedValue(mockProducts)
     mockApi.getClients.mockResolvedValue(mockClients)
@@ -169,7 +169,7 @@ describe('DealsPage Integration', () => {
       ...mockStoreActions,
       isLoading: true,
       deals: [],
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<DealsPage />)
     
@@ -180,7 +180,7 @@ describe('DealsPage Integration', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       error: 'Failed to load data',
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<DealsPage />)
     
@@ -191,7 +191,7 @@ describe('DealsPage Integration', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       deals: [],
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<DealsPage />)
     
@@ -217,7 +217,7 @@ describe('DealsPage Integration', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       setCurrentView: mockSetCurrentView,
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<DealsPage />)
     
@@ -231,7 +231,7 @@ describe('DealsPage Integration', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       currentView: 'kanban',
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<DealsPage />)
     
@@ -245,20 +245,20 @@ describe('DealsPage Integration', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       currentView: 'kanban',
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<DealsPage />)
     
-    const expectedStages = [
-      'Lead Generated',
-      'Contacted', 
-      'Application Submitted',
-      'Application Under Review',
-      'Deal Finalized',
-      'Payment Confirmed',
-      'Completed',
-      'Lost'
-    ]
+    // const expectedStages = [
+    //   'Lead Generated',
+    //   'Contacted', 
+    //   'Application Submitted',
+    //   'Application Under Review',
+    //   'Deal Finalized',
+    //   'Payment Confirmed',
+    //   'Completed',
+    //   'Lost'
+    // ]
     
     // Check that the kanban view is rendered
     expect(screen.getByText('Deals Pipeline')).toBeInTheDocument()

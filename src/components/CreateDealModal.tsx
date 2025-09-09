@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { X, Plus } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { Deal, Product, Client, DealStage } from '@/types';
@@ -23,15 +23,7 @@ const CreateDealModal = ({ isOpen, onClose }: CreateDealModalProps) => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    if (isOpen) {
-      loadData();
-    }
-  }, [isOpen]);
-
-  // No edit prefill in create modal
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       const [productsData, clientsData] = await Promise.all([
@@ -40,12 +32,18 @@ const CreateDealModal = ({ isOpen, onClose }: CreateDealModalProps) => {
       ]);
       setProducts(productsData);
       setClients(clientsData);
-    } catch (error) {
+    } catch {
       setError('Failed to load products and clients');
     } finally {
       setLoading(false);
     }
-  };
+  }, [setLoading, setError]);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadData();
+    }
+  }, [isOpen, loadData]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -97,7 +95,7 @@ const CreateDealModal = ({ isOpen, onClose }: CreateDealModalProps) => {
       });
       setErrors({});
       onClose();
-    } catch (error) {
+    } catch {
       setError('Failed to create deal');
     } finally {
       setLoading(false);

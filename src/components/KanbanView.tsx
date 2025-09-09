@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Eye, EyeOff, Edit, Trash2, MoreHorizontal } from 'lucide-react';
+import { Eye, EyeOff, Edit, Trash2 } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { Deal, DealStage } from '@/types';
 import { api } from '@/services/api';
@@ -28,7 +28,7 @@ const KanbanView = () => {
         setLoading(true);
         await api.deleteDeal(deal.id);
         deleteDeal(deal.id);
-      } catch (error) {
+      } catch {
         setError('Failed to delete deal');
       } finally {
         setLoading(false);
@@ -54,7 +54,7 @@ const KanbanView = () => {
         setLoading(true);
         await api.updateDeal(draggedDeal.id, { stage: targetStage });
         moveDeal(draggedDeal.id, targetStage);
-      } catch (error) {
+      } catch {
         setError('Failed to update deal stage');
       } finally {
         setLoading(false);

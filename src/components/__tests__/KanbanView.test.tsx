@@ -59,7 +59,7 @@ describe('KanbanView', () => {
   }
 
   beforeEach(() => {
-    mockUseStore.mockReturnValue(mockStoreActions as any)
+    mockUseStore.mockReturnValue(mockStoreActions as ReturnType<typeof useStore>)
     mockApi.updateDeal.mockResolvedValue(mockDeals[0])
   })
 
@@ -177,7 +177,7 @@ describe('KanbanView', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       viewPreferences: customPreferences,
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<KanbanView />)
     

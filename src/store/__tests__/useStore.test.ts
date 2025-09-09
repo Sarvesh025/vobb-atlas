@@ -3,7 +3,7 @@ import { useStore } from '../useStore'
 
 // Mock Zustand persist
 jest.mock('zustand/middleware', () => ({
-  persist: (fn: any) => fn,
+  persist: (fn: unknown) => fn,
 }))
 
 describe('useStore', () => {

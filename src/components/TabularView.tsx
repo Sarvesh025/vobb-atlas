@@ -20,7 +20,7 @@ const TabularView = () => {
         setLoading(true);
         await api.deleteDeal(deal.id);
         deleteDeal(deal.id);
-      } catch (error) {
+      } catch {
         setError('Failed to delete deal');
       } finally {
         setLoading(false);
@@ -67,8 +67,8 @@ const TabularView = () => {
         const diff = new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime();
         return sortDir === 'asc' ? diff : -diff;
       }
-      const aVal = (a as any)[sortKey] as string;
-      const bVal = (b as any)[sortKey] as string;
+      const aVal = a[sortKey] as string;
+      const bVal = b[sortKey] as string;
       const cmp = aVal.localeCompare(bVal);
       return sortDir === 'asc' ? cmp : -cmp;
     });

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import CreateDealModal from '../CreateDealModal'
 import { useStore } from '../../store/useStore'
@@ -29,7 +29,7 @@ describe('CreateDealModal', () => {
   }
 
   beforeEach(() => {
-    mockUseStore.mockReturnValue(mockStoreActions as any)
+    mockUseStore.mockReturnValue(mockStoreActions as ReturnType<typeof useStore>)
     mockApi.getProducts.mockResolvedValue(mockProducts)
     mockApi.getClients.mockResolvedValue(mockClients)
     mockApi.createDeal.mockResolvedValue({

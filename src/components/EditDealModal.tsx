@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { X, Save } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { Deal, Product, Client, DealStage } from '@/types';
@@ -24,11 +24,27 @@ const EditDealModal = ({ isOpen, onClose, deal }: EditDealModalProps) => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const loadData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const [productsData, clientsData] = await Promise.all([
+        api.getProducts(),
+        api.getClients(),
+      ]);
+      setProducts(productsData);
+      setClients(clientsData);
+    } catch {
+      setError('Failed to load products and clients');
+    } finally {
+      setLoading(false);
+    }
+  }, [setLoading, setError]);
+
   useEffect(() => {
     if (isOpen) {
       loadData();
     }
-  }, [isOpen]);
+  }, [isOpen, loadData]);
 
   useEffect(() => {
     if (isOpen && deal) {
@@ -39,22 +55,6 @@ const EditDealModal = ({ isOpen, onClose, deal }: EditDealModalProps) => {
       }));
     }
   }, [isOpen, deal]);
-
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      const [productsData, clientsData] = await Promise.all([
-        api.getProducts(),
-        api.getClients(),
-      ]);
-      setProducts(productsData);
-      setClients(clientsData);
-    } catch (error) {
-      setError('Failed to load products and clients');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -88,7 +88,7 @@ const EditDealModal = ({ isOpen, onClose, deal }: EditDealModalProps) => {
 
       setActiveDeal(null);
       onClose();
-    } catch (error) {
+    } catch {
       setError('Failed to update deal');
     } finally {
       setLoading(false);

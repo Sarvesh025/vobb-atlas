@@ -58,7 +58,7 @@ describe('TabularView', () => {
   }
 
   beforeEach(() => {
-    mockUseStore.mockReturnValue(mockStoreActions as any)
+    mockUseStore.mockReturnValue(mockStoreActions as ReturnType<typeof useStore>)
     mockApi.deleteDeal.mockResolvedValue()
   })
 
@@ -146,7 +146,7 @@ describe('TabularView', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       deals: [],
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<TabularView />)
     
@@ -166,7 +166,7 @@ describe('TabularView', () => {
     mockUseStore.mockReturnValue({
       ...mockStoreActions,
       viewPreferences: customPreferences,
-    } as any)
+    } as ReturnType<typeof useStore>)
 
     render(<TabularView />)
     

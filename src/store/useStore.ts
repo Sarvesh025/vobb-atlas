@@ -52,7 +52,7 @@ const defaultViewPreferences: ViewPreferences = {
 
 export const useStore = create<Store>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Initial state
       deals: [],
       products: [],

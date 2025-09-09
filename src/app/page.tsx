@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Plus, Loader2 } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import { api } from '@/services/api';
@@ -16,7 +16,7 @@ export default function DealsPage() {
     deals, 
     currentView, 
     isLoading, 
-    error, 
+    error,
     activeDeal,
     setDeals, 
     setProducts, 
@@ -28,11 +28,7 @@ export default function DealsPage() {
   
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  useEffect(() => {
-    loadInitialData();
-  }, []);
-
-  const loadInitialData = async () => {
+  const loadInitialData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -46,12 +42,16 @@ export default function DealsPage() {
       setDeals(dealsData);
       setProducts(productsData);
       setClients(clientsData);
-    } catch (error) {
+    } catch {
       setError('Failed to load initial data');
     } finally {
       setLoading(false);
     }
-  };
+  }, [setDeals, setProducts, setClients, setLoading, setError]);
+
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]);
 
   const handleCreateDeal = () => {
     setIsCreateModalOpen(true);
